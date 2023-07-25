@@ -12,10 +12,8 @@
 
 size_t partition(int *array, int low, int high, size_t size)
 {
-	int aux;
-	int pivot = array[high];
-	int j;
-	int i = low - 1;
+	int aux, pivot = array[high];
+	int i = low - 1, j;
 
 	for (j = low; j < high; j++)
 	{
@@ -42,6 +40,26 @@ size_t partition(int *array, int low, int high, size_t size)
 }
 
 /**
+ * qsort_helper - Helper function to implement quick sort
+ * @array: Array of integers to be sorted.
+ * @size: Size of the array.
+ * @low: The lower integer.
+ * @high: The higher integer.
+ */
+
+void qsort_helper(int *array, int low, int high, size_t size)
+{
+	int sort;
+
+	if (low < high)
+	{
+		sort = partition(array, low, high, size);
+		qsort_helper(array, low, sort - 1, size);
+		qsort_helper(array, sort + 1, high, size);
+	}
+}
+
+/**
  * quick_sort - Function that sorts an array of integers in
  * ascending order using the Quick sort algorithm.
  * @array: Array of integers to be sorted.
@@ -50,25 +68,5 @@ size_t partition(int *array, int low, int high, size_t size)
 
 void quick_sort(int *array, size_t size)
 {
-	q_sort(array, 0, size - 1, size);
-}
-
-/**
- * q_sort - Helper function to implement quick sort
- * @array: Array of integers to be sorted.
- * @size: Size of the array.
- * @low: The lower integer.
- * @high: The higher integer.
- */
-
-void q_sort(int *array, int low, int high, size_t size)
-{
-	int sort;
-
-	if (low < high)
-	{
-		sort = partition(array, low, high, size);
-		q_sort(array, low, sort - 1, size);
-		q_sort(array, sort + 1, high, size);
-	}
+	qsort_helper(array, 0, size - 1, size);
 }
